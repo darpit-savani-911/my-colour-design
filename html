@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darpit’s Color Design</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: black;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    h2 {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🎨 Darpit’s Design Zone 🎨</h2>
+  <canvas id="designCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('designCanvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let circles = [];
+
+    for (let i = 0; i < 60; i++) {
+      circles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 50 + 10,
+        color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+        dx: (Math.random() - 0.5) * 2,
+        dy: (Math.random() - 0.5) * 2
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      circles.forEach(c => {
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.radius, 0, Math.PI * 2);
+        ctx.fillStyle = c.color;
+        ctx.fill();
+
+        c.x += c.dx;
+        c.y += c.dy;
+
+        if (c.x + c.radius > canvas.width || c.x - c.radius < 0) c.dx *= -1;
+        if (c.y + c.radius > canvas.height || c.y - c.radius < 0) c.dy *= -1;
+      });
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+</body>
+</html>
